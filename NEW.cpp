@@ -1,9 +1,5 @@
-/*
-    x -> row, y -> col....
-*/
 #include <iostream>
 #include <conio.h>
-#include <ctime>
 #include "textstyling.h"
 
 #define MAX 3
@@ -22,10 +18,10 @@ char grid07[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
 char grid08[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
 char grid09[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
 
-void playerMove(char player);
-void display(); // function definition....
-void place(char player);
-void storeControl();
+void display(); // Function to display the grids....
+void storeControl(); // Function to auto transfer control on player move....
+void place(char player); // Function to place 'X' or 'O' on respective grid respectively....
+void playerMove(char player); // Function to enable player 1 to make a move....
 
 void storeControl() {
     if ((x == 0) && (y == 0)) { control = 0; }
@@ -65,7 +61,7 @@ void place(char player) {
         }
     }
 }
-void playerMove(char player) {
+void playerMove(char player) { 
     int key;
     while(true) {
         display();
@@ -89,103 +85,103 @@ void playerMove(char player) {
                 break; // after player makes a move, exit the while loop....
             }
         }
-        // std::cout << "HERE 2";system("pause"); 
-        // display(x, y, control);
     }
 }
-void display() { // Function displays all the grids....
+void display() {
     system("cls");
-    std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
+    std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 0) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid01[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid01[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid01[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid01[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 1) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid02[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid02[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid02[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid02[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 2) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid03[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid03[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid03[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid03[i][j] << "  ";
             }
         }
-        std::cout << "|" << std::endl;
-        std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;  
+        std::cout << GREEN_TEXT << "|" << RESET << std::endl;
+        std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     }
-    std::cout << std::endl;
-    std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
+    std::cout << RED_TEXT << "------------------+--------------------+------------------" << std::endl;
+    std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 3) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid04[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid04[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid04[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid04[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 4) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid05[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid05[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid05[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid05[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 5) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid06[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid06[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid06[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid06[i][j] << "  ";
             }
         }
-        std::cout << "|" << std::endl;
-        std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;  
+        std::cout << GREEN_TEXT << "|" << RESET << std::endl;
+        std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     }
-    std::cout << std::endl;
-    std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
+    std::cout << RED_TEXT << "------------------+--------------------+------------------" << std::endl;
+    std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 6) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid07[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid07[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid07[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid07[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 7) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid08[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid08[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid08[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid08[i][j] << "  ";
             }
         }
-        std::cout << "|    ";
+        std::cout << GREEN_TEXT << "|  " << RED_TEXT << "|" << RED_TEXT << "  " << RESET;
         for(int j=0; j<MAX; j++) {
             if(i == x && j == y && control == 8) {
-                std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid09[i][j] << " " RESET << " ";
+                std::cout << GREEN_TEXT << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid09[i][j] << " " RESET << " ";
             } else {
-                std::cout << "| " << grid09[i][j] << "  ";
+                std::cout << GREEN_TEXT << "| " << RESET << grid09[i][j] << "  ";
             }
         }
-        std::cout << "|" << std::endl;
-        std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;  
+        std::cout << GREEN_TEXT << "|" << RESET << std::endl;
+        std::cout << GREEN_TEXT << "+----+----+----+  " << RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+  " <<RED_TEXT << "|" << GREEN_TEXT << "  +----+----+----+" << RESET << std::endl;
     }
 }
+
 int main() {
     while(true) {
         playerMove('X');
         playerMove('O');
     }
+    system("pause");
     return 0;
 }
