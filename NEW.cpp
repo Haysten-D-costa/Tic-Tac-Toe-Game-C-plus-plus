@@ -8,23 +8,38 @@
 
 #define MAX 3
 
+int x = 0;
+int y = 0;
 int control = 0;
-char grid01[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x1 = 0, y1 = 0;
-char grid02[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x2 = 0, y2 = 0;
-char grid03[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x3 = 0, y3 = 0;
-char grid04[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x4 = 0, y4 = 0;
-char grid05[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x5 = 0, y5 = 0;
-char grid06[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x6 = 0, y6 = 0;
-char grid07[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x7 = 0, y7 = 0;
-char grid08[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x8 = 0, y8 = 0;
-char grid09[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}; int x9 = 0, y9 = 0;
+bool count = true;
+char grid01[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid02[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid03[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid04[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid05[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid06[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid07[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid08[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+char grid09[MAX][MAX] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
 
-void playerMove(int x, int y, char player);
-void display(int x, int y, int control); // function definition....
-void place(int x, int y, int control, char player);
+void playerMove(char player);
+void display(); // function definition....
+void place(char player);
+void storeControl();
 
-
-void place(int x, int y, int control, char player) {
+void storeControl() {
+    if ((x == 0) && (y == 0)) { control = 0; }
+    else if ((x == 0) && (y == 1)) { control = 1; }
+    else if ((x == 0) && (y == 2)) { control = 2; }
+    else if ((x == 1) && (y == 0)) { control = 3; }
+    else if ((x == 1) && (y == 1)) { control = 4; }
+    else if ((x == 1) && (y == 2)) { control = 5; }
+    else if ((x == 2) && (y == 0)) { control = 6; }
+    else if ((x == 2) && (y == 1)) { control = 7; }
+    else if ((x == 2) && (y == 2)) { control = 8; }
+}
+void place(char player) {
+    count = false; // to disable the 'tab' functionality, after player plays his first move....
     
     char(* ptr)[MAX]; // character pointer created, to access specific grids....
     if(control == 0) { ptr = grid01; } // point to specific grids, as per the control....
@@ -37,15 +52,26 @@ void place(int x, int y, int control, char player) {
     else if(control == 7) { ptr = grid08; }
     else if(control == 8) { ptr = grid09; }
 
-    if(player == 'X') { ptr[x][y] = 'X'; } 
-    else {ptr[x][y] = 'O'; }
+    if(player == 'X') {
+        if(ptr[x][y] == ' ') {
+            ptr[x][y] = 'X';
+            storeControl();
+        }
+    } 
+    else { 
+        if(ptr[x][y] == ' ') { 
+            ptr[x][y] = 'O'; 
+            storeControl();
+        }
+    }
 }
-void playerMove(int x, int y, char player) {
+void playerMove(char player) {
     int key;
     while(true) {
-        display(x, y, control);
+        display();
         key = _getch();
-        if(key == 9) { 
+        if(key == 27) { system("cls"); exit(1); } // escape key, to exit....
+        if(count == true && key == 9) { // tab key, to switch table....
             control++;
             if(control == 9) { control = 0; } 
         }
@@ -53,21 +79,26 @@ void playerMove(int x, int y, char player) {
         else if(key == 80 && x < MAX-1) { x++; }
         else if(key == 75 && y > 0) { y--; }
         else if(key == 77 && y <MAX-1) { y++; }
-        else if(key == 13) { 
-            if(player == 'X') { place(x, y, control, 'X'); }
-            else { place(x, y, control, 'O'); }
+        else if(key == 13) {  // enter key, to make a move....
+            if(player == 'X') { 
+                place( 'X');
+                break; // after player makes a move, exit the while loop....
+            }
+            else { 
+                place('O');
+                break; // after player makes a move, exit the while loop....
+            }
         }
-        // break;
-        if(player == 'X') { player = 'O'; }
-        else { player = 'X'; }
+        // std::cout << "HERE 2";system("pause"); 
+        // display(x, y, control);
     }
 }
-void display(int current_row, int current_col, int control) { // Function displays all the grids....
+void display() { // Function displays all the grids....
     system("cls");
     std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 0) {
+            if(i == x && j == y && control == 0) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid01[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid01[i][j] << "  ";
@@ -75,7 +106,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 1) {
+            if(i == x && j == y && control == 1) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid02[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid02[i][j] << "  ";
@@ -83,7 +114,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 2) {
+            if(i == x && j == y && control == 2) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid03[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid03[i][j] << "  ";
@@ -96,7 +127,7 @@ void display(int current_row, int current_col, int control) { // Function displa
     std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 3) {
+            if(i == x && j == y && control == 3) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid04[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid04[i][j] << "  ";
@@ -104,7 +135,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 4) {
+            if(i == x && j == y && control == 4) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid05[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid05[i][j] << "  ";
@@ -112,7 +143,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 5) {
+            if(i == x && j == y && control == 5) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid06[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid06[i][j] << "  ";
@@ -125,7 +156,7 @@ void display(int current_row, int current_col, int control) { // Function displa
     std::cout << "+----+----+----+    +----+----+----+    +----+----+----+" << std::endl;
     for(int i=0; i<MAX; i++) {
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 6) {
+            if(i == x && j == y && control == 6) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid07[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid07[i][j] << "  ";
@@ -133,7 +164,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 7) {
+            if(i == x && j == y && control == 7) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid08[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid08[i][j] << "  ";
@@ -141,7 +172,7 @@ void display(int current_row, int current_col, int control) { // Function displa
         }
         std::cout << "|    ";
         for(int j=0; j<MAX; j++) {
-            if(i == current_row && j == current_col && control == 8) {
+            if(i == x && j == y && control == 8) {
                 std::cout << "| " << HIGHLIGHT << BLACK_TEXT << WHITE_BACKGROUND << grid09[i][j] << " " RESET << " ";
             } else {
                 std::cout << "| " << grid09[i][j] << "  ";
@@ -153,7 +184,8 @@ void display(int current_row, int current_col, int control) { // Function displa
 }
 int main() {
     while(true) {
-        playerMove(0, 0, 'X');
+        playerMove('X');
+        playerMove('O');
     }
     return 0;
 }
