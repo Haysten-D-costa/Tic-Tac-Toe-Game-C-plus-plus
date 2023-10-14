@@ -2,6 +2,8 @@
 #include <conio.h>
 #include <ctime> 
 #include <windows.h>
+#include <vector>
+#include "arrow_menu.h"   
 #include "textstyling.h"
 
 #define GRID_SIZE 3
@@ -9,6 +11,7 @@
 bool yourTurn = true;
 int current_row = 0, current_col = 0;
 char grid[GRID_SIZE][GRID_SIZE] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+std::vector<std::string> main_menu = { "Start Game....", "Game Settings....", "Exit Game...." };
 
 /* 
     These are function declarations for various functions used in the Tic-Tac-Toe game. Here is a brief
@@ -29,18 +32,33 @@ void displayGrid(int current_row, int current_col); // function displays grid...
  * @return The main function is returning an integer value of 0.
  */
 int main() { // MAIN FUNCTION-----------------------------------------------------------------------------
-    while (true) {
-        displayGrid(current_row, current_col);
-        playerMove();
-        if(checkWinner(grid)) { break; }
-        else if(checkTie(grid)) {
-            break;
-        }
-        computerMove();
-        if(checkWinner(grid)) { break; }
-        else if(checkTie(grid)) {
-            break;
-        }
+
+    int choice = menu::arrowMenu(main_menu);
+    switch(choice) {
+        case 0 : {
+            while (true) {
+                displayGrid(current_row, current_col);
+                playerMove();
+                if(checkWinner(grid)) { break; }
+                else if(checkTie(grid)) {
+                    break;
+                }
+                computerMove();
+                if(checkWinner(grid)) { break; }
+                else if(checkTie(grid)) {
+                    break;
+                }
+            }
+        } break;
+        
+        case 1 : {
+            std::cout << "GAME SETTING !!" << std::endl;
+        } break;
+
+        case 2 : {
+            menu::loading("Exiting");
+            exit(0);
+        } break;
     }
     std::cout << std::endl; system("pause");
     displayGrid(-1, -1);
@@ -58,29 +76,21 @@ int main() { // MAIN FUNCTION---------------------------------------------------
  */
 void displayGrid(int current_row, int current_col) {
     system("cls");
-
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
-    std::cout << "\t\t\t\t| " << grid[0][0] << "  |  " << grid[0][1] << "  |  " << grid[0][2] << " |" << std::endl;  
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
-    std::cout << "\t\t\t\t| " << grid[1][0] << "  |  " << grid[1][1] << "  |  " << grid[1][2] << " |" << std::endl;
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;    
-    std::cout << "\t\t\t\t| " << grid[2][0] << "  |  " << grid[2][1] << "  |  " << grid[2][2] << " |" << std::endl;  
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
+    menu::printHeader();
     std::cout << std::endl;
-    // std::cout << std::endl;
-    // std::cout << "+----+----+----+" << std::endl;
-    // for(int i=0; i<GRID_SIZE; i++) {
-    //     for(int j=0; j<GRID_SIZE; j++) {
-            
-    //         if(i == current_row && j == current_col) {
-    //             std::cout << "| " << BLACK_TEXT << WHITE_BACKGROUND << grid[i][j] << " " RESET << " ";
-    //         } else {
-    //             std::cout << "| " << grid[i][j] << "  ";
-    //         }
-    //     }
-    //     std::cout << "|" << std::endl;
-    //     std::cout << "+----+----+----+" << std::endl;  
-    // }
+    std::cout << "\t\t\t\t +----+----+----+" << std::endl;
+    for(int i=0; i<GRID_SIZE; i++) {
+        std::cout << "\t\t\t\t ";
+        for(int j=0; j<GRID_SIZE; j++) {
+            if(i == current_row && j == current_col) {
+                std::cout << "| " << BLACK_TEXT << WHITE_BACKGROUND << grid[i][j] << " " RESET << " ";
+            } else {
+                std::cout << "| " << grid[i][j] << "  ";
+            }
+        }
+        std::cout << "|" << std::endl;
+        std::cout << "\t\t\t\t +----+----+----+" << std::endl;  
+    }
 }
 /**
  * The function "place" takes in the coordinates (x, y) and a boolean value "turn" and updates the grid
