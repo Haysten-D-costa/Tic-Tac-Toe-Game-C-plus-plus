@@ -59,28 +59,20 @@ int main() { // MAIN FUNCTION---------------------------------------------------
 void displayGrid(int current_row, int current_col) {
     system("cls");
 
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
-    std::cout << "\t\t\t\t| " << grid[0][0] << "  |  " << grid[0][1] << "  |  " << grid[0][2] << " |" << std::endl;  
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
-    std::cout << "\t\t\t\t| " << grid[1][0] << "  |  " << grid[1][1] << "  |  " << grid[1][2] << " |" << std::endl;
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;    
-    std::cout << "\t\t\t\t| " << grid[2][0] << "  |  " << grid[2][1] << "  |  " << grid[2][2] << " |" << std::endl;  
-    std::cout << "\t\t\t\t+----+-----+----+" << std::endl;  
     std::cout << std::endl;
-    // std::cout << std::endl;
-    // std::cout << "+----+----+----+" << std::endl;
-    // for(int i=0; i<GRID_SIZE; i++) {
-    //     for(int j=0; j<GRID_SIZE; j++) {
+    std::cout << "+----+----+----+" << std::endl;
+    for(int i=0; i<GRID_SIZE; i++) {
+        for(int j=0; j<GRID_SIZE; j++) {
             
-    //         if(i == current_row && j == current_col) {
-    //             std::cout << "| " << BLACK_TEXT << WHITE_BACKGROUND << grid[i][j] << " " RESET << " ";
-    //         } else {
-    //             std::cout << "| " << grid[i][j] << "  ";
-    //         }
-    //     }
-    //     std::cout << "|" << std::endl;
-    //     std::cout << "+----+----+----+" << std::endl;  
-    // }
+            if(i == current_row && j == current_col) {
+                std::cout << "| " << BLACK_TEXT << WHITE_BACKGROUND << grid[i][j] << " " RESET << " ";
+            } else {
+                std::cout << "| " << grid[i][j] << "  ";
+            }
+        }
+        std::cout << "|" << std::endl;
+        std::cout << "+----+----+----+" << std::endl;  
+    }
 }
 /**
  * The function "place" takes in the coordinates (x, y) and a boolean value "turn" and updates the grid
